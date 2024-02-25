@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import Table from './Table';
+let nextId = 1;
 
-function Form({ data, handleAdd, handleDelete, handleUpdate }) {
+function Form({ handleAdd, data, handleUpdate }) {
     let categories = ["Électronique", "Vêtements", "Maison et Jardin", "Sports et Loisirs", "Beauté et Santé", "Alimentation", "Auto et Moto", "Informatique", "Livres", "Jouets"];
+
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredData = data.filter(item => {
+        return (
+            item.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.categorie.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    });
 
     const [formInputs, setFormInputs] = useState({
         id: "",
@@ -10,68 +22,67 @@ function Form({ data, handleAdd, handleDelete, handleUpdate }) {
         description: "",
         prix: "",
         date: "",
-        categorie: ""
-    })
-    const [isUpdating, setIsUpdating] = useState(false)
-    const [nextId, setNextId] = useState(1)
+        categorie: "",
+    });
 
-    function Aujourdhui() {
-        const today = new Date()
-        const annee = today.getFullYear()
-        const mois = String(today.getMonth() + 1).padStart(2, "0")
-        const jour = String(today.getDate()).padStart(2, "0")
-        return `${annee}-${mois}-${jour}`
+    function handleEdit(product) {
+        if (window.confirm(`Etes-vous sur de vouloir modifier le produit avec id : ${product.id} ?`)) {
+            setFormInputs(product);
+            setIsUpdating(true);
+        }
+    }
+
+    function EditProduct(e) {
+        e.preventDefault();
+        if (formInputs.nom.length < 3 || formInputs.nom.length > 20) {
+            alert("Le nom doit avoir entre 3 et 20 caractères");
+            return;
+        }
+        if (formInputs.description.length < 3 || formInputs.description.length > 200) {
+            alert("La description doit avoir entre 3 et 200 caractères");
+            return;
+        }
+        if (formInputs.prix < 1 || formInputs.prix.length > 100000) {
+            alert("Le prix doit avoir entre 1 et 100000");
+            return;
+        }
+        if (formInputs.date < getTodayDate() || formInputs.date > "2040-12-31") {
+            alert("La date doit avoir entre aujourd'hui et 2040-12-31");
+            return;
+        }
+        handleUpdate(formInputs);
+        setIsUpdating(false);
+    }
+
+    function getTodayDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 
     function AddProduct(e) {
         e.preventDefault();
         if (formInputs.nom.length < 3 || formInputs.nom.length > 20) {
-            alert('nom: entre 3 et 20')
-            return
+            alert("Le nom doit avoir entre 3 et 20 caractères");
+            return;
         }
-        if (formInputs.description.length < 3 || formInputs.description.length > 120) {
-            alert('description: entre 3 et 120')
-            return
+        if (formInputs.description.length < 3 || formInputs.description.length > 200) {
+            alert("La description doit avoir entre 3 et 200 caractères");
+            return;
         }
-        if (formInputs.prix < 1 || formInputs.prix.length > 10000) {
-            alert('prix: entre 1 et 10000')
-            return
+        if (formInputs.prix < 1 || formInputs.prix.length > 100000) {
+            alert("Le prix doit avoir entre 1 et 100000");
+            return;
         }
-        if (formInputs.date < Aujourdhui() || formInputs.date > '2030-12-31') {
-            alert(`date: entre aujourd'hui et 2030-12-31`)
-            return
+        if (formInputs.date < getTodayDate() || formInputs.date > "2040-12-31") {
+            alert("La date doit avoir entre aujourd'hui et 2040-12-31");
+            return;
         }
         handleAdd({ ...formInputs, id: nextId });
-        setNextId(nextId + 1)
-    }
-
-    function handleEdit(produit) {
-        if (window.confirm(`modifier produit avec id ${produit.id}`)) {
-            setFormInputs(produit)
-            setIsUpdating(true)
-        }
-    }
-
-    function EditProduit(e) {
-        e.preventDefault();
-        if (formInputs.nom.length < 3 || formInputs.nom.length > 20) {
-            alert('nom: entre 3 et 20')
-            return
-        }
-        if (formInputs.description.length < 3 || formInputs.description.length > 120) {
-            alert('description: entre 3 et 120')
-            return
-        }
-        if (formInputs.prix < 1 || formInputs.prix.length > 10000) {
-            alert('prix: entre 1 et 10000')
-            return
-        }
-        if (formInputs.date < Aujourdhui() || formInputs.date > '2030-12-31') {
-            alert(`date: entre aujourd'hui et 2030-12-31`)
-            return
-        }
-        handleUpdate(formInputs)
-        setIsUpdating(false);
+        nextId = nextId + 1;
     }
 
     return (
@@ -87,22 +98,21 @@ function Form({ data, handleAdd, handleDelete, handleUpdate }) {
                 <label>Date d'experation : </label>
                 <input type="date" value={formInputs.date} onChange={(e) => setFormInputs({ ...formInputs, date: e.target.value })} />
                 <label>Catégorie : </label>
-                <select value={formInputs.categorie} onChange={(e) => setFormInputs({ ...formInputs, categorie: e.target.value })}  >
+                <select value={formInputs.categorie} onChange={(e) => setFormInputs({ ...formInputs, categorie: e.target.value })}>
                     <option value="">Categorie</option>
                     {categories.map((item, key) => (
-                        <option value={item} key={key}>{item}</option>
+                        <option key={key}>{item}</option>
                     ))}
                 </select>
-                {isUpdating
-                    ? <button onClick={EditProduit} disabled={formInputs.nom === "" || formInputs.description === "" || formInputs.prix === "" || formInputs.date === "" || formInputs.categorie === ""}>Modifier</button>
-                    : <button onClick={AddProduct} disabled={formInputs.nom === "" || formInputs.description === "" || formInputs.prix === "" || formInputs.date === "" || formInputs.categorie === ""}>Ajouter</button>}
+                {!isUpdating
+                    ? <button onClick={AddProduct} disabled={formInputs.nom === "" || formInputs.description === "" || formInputs.prix === "" || formInputs.date === "" || formInputs.categorie === ""}><b>Ajouter</b></button>
+                    : <button onClick={EditProduct} disabled={formInputs.nom === "" || formInputs.description === "" || formInputs.prix === "" || formInputs.date === "" || formInputs.categorie === ""}><b>Modifier</b></button>}
             </form>
+            <input type="text" placeholder="Rechercher" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
-            {!isUpdating && <Table data={data} handleDelete={handleDelete} handleEdit={handleEdit} />}
+            {!isUpdating && <Table data={filteredData} handleEdit={handleEdit} />}
         </>
     );
 }
 
 export default Form;
-
-

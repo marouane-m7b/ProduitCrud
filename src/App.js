@@ -1,19 +1,26 @@
 import { useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
+import { AppContext } from "./contexts/AppContext";
 
 const App = () => {
   const [data, setData] = useState([
-    // {id: 17,nom: "Ordinateur portable Dell XPS 13",description: "Puissant ordinateur portable avec écran tactile",prix: 1200,date: "2024-02-24",categorie: "Informatique", },
-    // {id: 18,nom: "Smartphone Samsung Galaxy S22",description: "Dernier smartphone avec caméra haute résolution",prix: 900,date: "2024-02-25",categorie: "Téléphonie", },
-    // {id: 19,nom: "Caméra Sony Alpha A7 III",description: "Caméra professionnelle pour les photographes",prix: 1500,date: "2024-02-26",categorie: "Photographie", },
-    // {id: 20,nom: "Téléviseur LG OLED CX",description: "Écran OLED avec qualité d'image exceptionnelle",prix: 2000,date: "2024-02-27",categorie: "Électronique grand public", },
-    // {id: 21,nom: "Montre connectée Apple Watch Series 7",description: "Suivi de la condition physique et des notifications intelligentes",prix: 400,date: "2024-02-28",categorie: "Accessoires électroniques", },
-    // {id: 22,nom: "Console de jeux Sony PlayStation 5",description: "Console de nouvelle génération avec graphismes haute définition",prix: 500,date: "2024-02-29",categorie: "Jeux vidéo", },
-    // {id: 23,nom: "Livre 'Le Seigneur des Anneaux'",description: "Chef-d'œuvre de la littérature fantastique",prix: 30,date: "2024-03-01",categorie: "Littérature", },
-    // {id: 24,nom: "Cafetière automatique Philips",description: "Préparez du café frais avec facilité",prix: 80,date: "2024-03-02",categorie: "Électroménager", },
-    // {id: 25,nom: "Sac à dos North Face",description: "Sac résistant à l'eau pour les amateurs de plein air",prix: 70,date: "2024-03-03",categorie: "Accessoires de voyage", },
-    // {id: 26,nom: "Enceinte Bluetooth JBL Charge 5",description: "Haut-parleur portable avec une excellente qualité sonore",prix: 150,date: "2024-03-04",categorie: "Audio", },
+    // { id: 1, nom: "produit 1", description: "description 1", prix: 1, date: "2022-01-01", categorie: "Categorie 1" },
+    // { id: 2, nom: "produit 3", description: "description 2", prix: 2, date: "2022-01-02", categorie: "Categorie 2" },
+    // { id: 3, nom: "produit 2", description: "description 3", prix: 3, date: "2022-01-03", categorie: "Categorie 3" },
+    // { id: 4, nom: "produit 4", description: "description 4", prix: 4, date: "2022-01-04", categorie: "Categorie 4" },
+    // { id: 5, nom: "produit 5", description: "description 5", prix: 5, date: "2022-01-05", categorie: "Categorie 5" },
+    // { id: 6, nom: "produit 6", description: "description 6", prix: 6, date: "2022-01-06", categorie: "Categorie 6" },
+    // { id: 7, nom: "produit 7", description: "description 7", prix: 7, date: "2022-01-07", categorie: "Categorie 7" },
+    // { id: 8, nom: "produit 8", description: "description 8", prix: 8, date: "2022-01-08", categorie: "Categorie 8" },
+    // { id: 9, nom: "produit 9", description: "description 9", prix: 9, date: "2022-01-09", categorie: "Categorie 9" },
+    // { id: 10, nom: "produit 10", description: "description 10", prix: 10, date: "2022-01-10", categorie: "Categorie 10" },
+    // { id: 11, nom: "produit 11", description: "description 11", prix: 11, date: "2022-01-11", categorie: "Categorie 11" },
+    // { id: 12, nom: "produit 12", description: "description 12", prix: 12, date: "2022-01-12", categorie: "Categorie 12" },
+    // { id: 13, nom: "produit 13", description: "description 13", prix: 13, date: "2022-01-13", categorie: "Categorie 13" },
+    // { id: 14, nom: "produit 14", description: "description 14", prix: 14, date: "2022-01-14", categorie: "Categorie 14" },
+    // { id: 15, nom: "produit 15", description: "description 15", prix: 15, date: "2022-01-15", categorie: "Categorie 15" },
+    // { id: 16, nom: "produit 16", description: "description 16", prix: 16, date: "2022-01-16", categorie: "Categorie 16" },
   ]);
 
   function handleAdd(newProduct) {
@@ -28,7 +35,7 @@ const App = () => {
     setData(
       data.map((item) => {
         if (item.id === inputs.id) {
-          return { ...inputs };
+          return { ...inputs};
         } else {
           return item;
         }
@@ -37,14 +44,15 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <Form
-        data={data}
-        handleAdd={handleAdd}
-        handleDelete={handleDelete}
-        handleUpdate={handleUpdate}
-      />
-    </div>
+    <AppContext.Provider value={handleDelete}>
+      <div className="App">
+        <Form
+          handleAdd={handleAdd}
+          data={data}
+          handleUpdate={handleUpdate}
+        />
+      </div>
+    </AppContext.Provider>
   );
 };
 
