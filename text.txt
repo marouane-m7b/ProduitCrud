@@ -1,0 +1,109 @@
+================================
+====                        ====
+====        Séance 1        ====
+====                        ====
+================================
+C'est qoui un framework (
+    js: deux interfaces logique et graphique, 
+    react: relation entre variable et partie graphique
+    (two-way binding)
+)
+SPA vs MPA
+React est un bibliothèque parceque tu peux prendre le lien cdn et utiliser comme bootstrap ou autre bibliothèque
+Angular js Ou Vue js sont des framework parceque tu base sur eux
+VsCode Extensions (EsLint, Prettier)
+Chrome Extensions (ReactDevTools)
+Install NodeJs
+npx create-react-app myapp
+Structure of files
+Delete uncessery files (index.html in public, none in src)
+Création index.js (App() entre index.js)
+explixation de root
+Création de App en autre fichier
+Jsx est un mélange entre javascript et html (
+    close tag "self close aussi"
+    tout entre 1 element html
+    {javascript ici (test number, variable, function and object)}
+)
+Styling in jsx (style={object})
+ClassName (condition entre {})
+Les composants
+================================
+====                        ====
+====        Séance 2        ====
+====                        ====
+================================
+Révision
+Travaux Pratiques
+Props (
+    function vs component
+    pass props and log in console
+    call props in jsx
+    props in variables
+    object destructuring
+
+    pass variable
+    defaultValue (in child)
+    children
+)
+Travaux Pratiques
+State (
+    state management au react, redux, context api, vue x
+    essayer de changer variable valeur
+    c'est quoi le dom { react code changer vers html css js } et l'arbre de DOM
+    ReactDevTools rendered by
+    re-render variable ne reste pas a leur valeurs
+    c'est qoui hook en react
+    useState hook
+    log useState {valeur entre l'hook}
+    const state = useState("Test")
+    log state
+    const value = state[0]
+    const setValue = state[1]
+    ReactDevTools et rendering
+    ! value = "madirhach"
+    const [value, setValue] = useState("Test")
+)
+Management des States avec les inputs (
+    MyInput component
+    onChange ()=>function()
+    value = {myInput} explain problem
+    onChange = {handleInputChange} log event et aprés setMyInput(event.target.value)
+)
+Management des States avec les formulaires (
+    chaque input seulement
+    tous les inputs en meme state
+    chaque inputs state
+    probleme de defined to undefined {
+        { setValue({email:e.value, name:""}) }
+        { setValue({email:e.value, name:formInputs.name}) }
+        explain spread
+        { setValue({email:e.value, ...formInputs}) }
+    }
+
+================================
+====                        ====
+====        Séance 3        ====
+====                        ====
+================================
+    checkbox
+    textarea
+    radio
+    select
+)
+array (
+    devicesArray
+    mutation
+    devicesList = map devices
+    afficher list de devices in ui
+    ajouter id au array
+    modifier l'ajout de devices
+    nextId hors component
+    essayer supprimer avec slice
+    supprimer avec filter
+    handleedit
+)
+stateserval time
+create counter
+essayer setTimout
+donner la correcte form

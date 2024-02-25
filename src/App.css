@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+label {
+  display: block;
+  margin: 5px;
+}
+input,
+select,
+textarea {
+  display: block;
+  padding: 10px 5px;
+  margin: auto;
+  min-width: 500px;
+  border-radius: 5px;
+  background-color: white;
+}
+button {
+  background-color: rgb(132, 220, 0);
+  color: rgb(0, 0, 0);
+  padding: 7px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  margin: 10px;
+  cursor: pointer;
+  font-weight: 900;
+}
+button:disabled {
+  background-color: rgb(196, 196, 196);
+  pointer-events: none;
+}
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80vw;
+}
+table th,
+table td {
+  border: 2px solid black;
+  padding: 5px 20px;
+}
+table th {
+  background-color: rgb(132, 220, 0);
+}
+h1 {
+  margin-top: 20px;
+}
