@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from './Table';
-let nextId = 1;
 
 function Form({ handleAdd, data, handleUpdate }) {
     let categories = ["Électronique", "Vêtements", "Maison et Jardin", "Sports et Loisirs", "Beauté et Santé", "Alimentation", "Auto et Moto", "Informatique", "Livres", "Jouets"];
 
     const [isUpdating, setIsUpdating] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [nextId, setNextId] = useState(1)
+
+    useEffect(() => {
+        if (localStorage.getItem("data")) {
+            let data = JSON.parse(localStorage.getItem("data"))
+            let lastElement = data[data.length - 1]
+            setNextId(lastElement.id + 1);
+        }
+    }, [])
+
 
     const filteredData = data.filter(item => {
         return (
@@ -82,7 +91,7 @@ function Form({ handleAdd, data, handleUpdate }) {
             return;
         }
         handleAdd({ ...formInputs, id: nextId });
-        nextId = nextId + 1;
+        setNextId(nextId + 1);
     }
 
     return (

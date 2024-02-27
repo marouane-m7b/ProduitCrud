@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
 import { AppContext } from "./contexts/AppContext";
+import { Route, Routes } from "react-router-dom";
+import Produit from "./components/Produit";
 
 const App = () => {
   const [data, setData] = useState([
@@ -23,34 +25,65 @@ const App = () => {
     // { id: 16, nom: "produit 16", description: "description 16", prix: 16, date: "2022-01-16", categorie: "Categorie 16" },
   ]);
 
+  useEffect(() => {
+    if (localStorage.getItem("data")) {
+      setData(JSON.parse(localStorage.getItem("data")));
+    }
+  }, []);
+
   function handleAdd(newProduct) {
     setData([...data, newProduct]);
+    localStorage.setItem("data", JSON.stringify([...data, newProduct]));
   }
 
   function handleDelete(id) {
     setData(data.filter((item) => item.id !== id));
+    localStorage.setItem(
+      "data",
+      JSON.stringify(data.filter((item) => item.id !== id))
+    );
   }
 
   function handleUpdate(inputs) {
     setData(
       data.map((item) => {
         if (item.id === inputs.id) {
-          return { ...inputs};
+          return { ...inputs };
         } else {
           return item;
         }
       })
     );
+    localStorage.setItem(
+      "data",
+      JSON.stringify(
+        data.map((item) => {
+          if (item.id === inputs.id) {
+            return { ...inputs };
+          } else {
+            return item;
+          }
+        })
+      )
+    );
   }
 
   return (
-    <AppContext.Provider value={handleDelete}>
+    <AppContext.Provider value={{ handleDelete: handleDelete, data: data }}>
       <div className="App">
-        <Form
-          handleAdd={handleAdd}
-          data={data}
-          handleUpdate={handleUpdate}
-        />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Form
+                handleAdd={handleAdd}
+                data={data}
+                handleUpdate={handleUpdate}
+              />
+            }
+          />
+          <Route path="/:id" element={<Produit />} />
+        </Routes>
       </div>
     </AppContext.Provider>
   );

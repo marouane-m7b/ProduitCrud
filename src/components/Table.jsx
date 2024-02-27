@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../contexts/AppContext';
+import { Link } from 'react-router-dom';
 
 function Table({ data, handleEdit }) {
 
   const myContext = useContext(AppContext)
   const handleDelete = myContext.handleDelete
-
 
 
   const itemsPerPage = 5;
@@ -47,6 +47,7 @@ function Table({ data, handleEdit }) {
               <td>
                 <button style={{ backgroundColor: '#ff008e' }} onClick={() => handleDelete(item.id)}>Supprimer</button>
                 <button style={{ backgroundColor: '#00c5ff' }} onClick={() => handleEdit(item)}>Modifier</button>
+                <Link to={`/${item.id}`}><button>Afficher</button></Link>
               </td>
             </tr>
           )
